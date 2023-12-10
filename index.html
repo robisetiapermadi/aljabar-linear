@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vector Operations</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+    }
+
+    select,
+    input,
+    button {
+      margin: 10px;
+      padding: 5px;
+    }
+
+    .input_vector {
+      appearance: none;
+      background-color: none;
+      border: 1px solid #424c4a;
+      line-height: 0;
+      font-size: 17px;
+      width: 100%;
+      display: block;
+      box-sizing: border-box;
+      padding: 10px 15px;
+      border-radius: 60px;
+      color: #424c4a;
+      font-weight: 100;
+      letter-spacing: 0.01em;
+      position: relative;
+      z-index: 1;
+      margin: 0px;
+    }
+
+    #vector1,
+    #vector2,
+    #vector3,
+    #vector_dot1,
+    #vector_dot2,
+    #vector_dot3 {
+      position: relative;
+      margin: 0 auto;
+      width: 250px;
+    }
+
+    #vector_transform,
+    #vector_transform_result {
+      position: relative;
+      margin: 0 auto;
+      width: 350px;
+    }
+
+    #input {
+      font-size: 12px;
+
+    }
+
+
+    .input_vector[type="text"]:focus {
+      outline: none;
+      background: #424c4a;
+      color: white;
+      text-align: center;
+    }
+
+    .input_vector[type="text"]:focus~label {
+      -moz-transform: translate(0, -35px);
+      -ms-transform: translate(0, -35px);
+      -webkit-transform: translate(0, -35px);
+      transform: translate(0, -35px);
+    }
+
+    .input_vector[type="text"]:valid~label {
+      text-transform: uppercase;
+      font-style: italic;
+      -moz-transform: translate(5px, -35px) scale(0.6);
+      -ms-transform: translate(5px, -35px) scale(0.6);
+      -webkit-transform: translate(5px, -35px) scale(0.6);
+      transform: translate(5px, -35px) scale(0.6);
+    }
+
+    .container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 450px;
+      background: #fff;
+      padding: 20px 30px;
+      box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+      border: 1px solid rgba(17, 12, 46, 0.15);
+      border-radius: 10px;
+    }
+
+    .brackets1 {
+      display: table-cell;
+      vertical-align: middle;
+      font-size: 144px;
+      position: absolute;
+      left: 15%;
+      top: 25%;
+    }
+
+    .brackets2 {
+      display: table-cell;
+      vertical-align: middle;
+      font-size: 144px;
+      position: absolute;
+      left: 75%;
+      top: 25%;
+    }
+
+    .brackets3 {
+      display: table-cell;
+      vertical-align: middle;
+      font-size: 144px;
+      position: absolute;
+      left: 15%;
+      top: 46%;
+    }
+
+    .brackets4 {
+      display: table-cell;
+      vertical-align: middle;
+      font-size: 144px;
+      position: absolute;
+      left: 75%;
+      top: 46%;
+    }
+
+    .brackets5 {
+      display: table-cell;
+      vertical-align: middle;
+      font-size: 144px;
+      position: absolute;
+      left: 15%;
+      top: 77%;
+    }
+
+    .brackets6 {
+      display: table-cell;
+      vertical-align: middle;
+      font-size: 144px;
+      position: absolute;
+      left: 75%;
+      top: 77%;
+    }
+
+    .brackets7 {
+      display: table-cell;
+      vertical-align: middle;
+      font-size: 144px;
+      position: absolute;
+      left: 75%;
+      top: 76%;
+    }
+
+    .brackets8 {
+      display: table-cell;
+      vertical-align: middle;
+      font-size: 144px;
+      position: absolute;
+      left: 75%;
+      top: 76%;
+    }
+
+    .brackets9 {
+      display: table-cell;
+      vertical-align: middle;
+      font-size: 144px;
+      position: absolute;
+      left: 75%;
+      top: 76%;
+    }
+
+    .brackets10 {
+      display: table-cell;
+      vertical-align: middle;
+      font-size: 144px;
+      position: absolute;
+      left: 75%;
+      top: 76%;
+    }
+
+    .modal {
+      z-index: 10;
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(77, 77, 77, .7);
+      transition: all .4s;
+    }
+
+    .modal:target {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .modal__content {
+      border-radius: 4px;
+      position: relative;
+      width: 500px;
+      max-width: 90%;
+      background: #fff;
+      padding: 1em 2em;
+    }
+
+    .modal__footer {
+      text-align: right;
+    }
+
+    .modal__close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: #585858;
+      text-decoration: none;
+    }
+
+    .button {
+      display: flex;
+      overflow: hidden;
+      margin: 10px;
+      padding: 12px 12px;
+      cursor: pointer;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      transition: all 150ms linear;
+      text-align: center;
+      white-space: nowrap;
+      text-decoration: none !important;
+      text-transform: none;
+      text-transform: capitalize;
+      color: #fff;
+      border: 0 none;
+      border-radius: var(--borderRadius);
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.3;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      justify-content: center;
+      align-items: center;
+      flex: 0 0 160px;
+      box-shadow: 2px 5px 10px var(--color-smoke);
+    }
+
+    .button:hover {
+      transition: all 150ms linear;
+      opacity: 0.85;
+    }
+
+    .button:active {
+      transition: all 150ms linear;
+      opacity: 0.75;
+    }
+
+    .button:focus {
+      outline: 1px dotted #959595;
+      outline-offset: -4px;
+    }
+
+    .button.-regular {
+      color: #202129;
+      background-color: #f2f2f2;
+    }
+
+    .button.-regular:hover {
+      color: #202129;
+      background-color: #e1e2e2;
+      opacity: 1;
+    }
+
+    .button.-regular:active {
+      background-color: #d5d6d6;
+      opacity: 1;
+    }
+
+    .button-container {
+      display: flex;
+      margin: 0px auto;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="modal_dot" class="modal">
+    <div class="modal__content">
+      <h1>Hitung Dot Product</h1>
+
+      <div>
+        <label for="vector_dot1">Masukkan Vektor 1:</label>
+        <div id="vector_dot1">
+
+          <table class=" table_vector1">
+            <tr>
+              <td style="font-size: 55px;">(</td>
+              <td>
+                <input type="text" id="vector_dot1_a" class="input_vector">
+              </td>
+              <td>
+                <input type="text" id="vector_dot1_b" class="input_vector">
+              </td>
+              <td>
+                <input type="text" id="vector_dot1_c" class="input_vector">
+              </td>
+              <td style="font-size: 55px;">)</td>
+            </tr>
+          </table>
+        </div>
+
+
+        <br>
+
+        <label for="vector_dot2">Masukkan Vektor 2:</label>
+        <div id="vector_dot2">
+
+          <table class=" table_vector2">
+            <tr>
+              <td style="font-size: 55px;">(</td>
+              <td>
+                <input type="text" id="vector_dot2_a" class="input_vector">
+              </td>
+              <td>
+                <input type="text" id="vector_dot2_b" class="input_vector">
+              </td>
+              <td>
+                <input type="text" id="vector_dot2_c" class="input_vector">
+              </td>
+              <td style="font-size: 55px;">)</td>
+
+            </tr>
+          </table>
+        </div>
+
+
+        <br>
+
+        <div class="button-container">
+          <button class="button -regular center" onclick="calculate_dot()">Hitung</button>
+
+        </div>
+
+        <br>
+
+        <label for="vector_dot3">Result:</label>
+        <div id="vector_dot3">
+
+          <table class=" table_vector3">
+            <tr>
+              <td>
+                <input disabled type="text" id="vector_dot_result" class="input_vector">
+              </td>
+            </tr>
+          </table>
+        </div>
+
+
+
+      </div>
+
+      <div class="modal__footer">
+      </div>
+
+      <a href="#" class="modal__close">&times;</a>
+    </div>
+  </div>
+
+  <div id="modal_transform" class="modal">
+    <div class="modal__content">
+      <h1>Hitung Transformasi Elementer</h1>
+
+      <div style="text-align: left; font-size:small;">
+        <p>
+          Pilih Operasi:
+        </p>
+        <ol>
+          <li>
+            Menukar elemen pada baris/kolom ke-i dengan elemen pada baris/kolom ke–j
+          </li>
+          <li>
+            Mengalikan elemen pada baris/kolom ke-i dengan skalar a
+          </li>
+          <li>
+            Menambah elemen pada baris/kolom ke-i dengan a dikali elemen baris/kolom ke–j
+          </li>
+          <li>
+            Menambah elemen pada baris/kolom ke-i dikali a dengan elemen pada baris/kolom ke–j dikali b
+          </li>
+        </ol>
+      </div>
+      <table id="input" style="border-spacing: 0px;">
+        <tr>
+          <td>
+            <label for="operation_transform">Pilih Operasi:</label>
+          </td>
+          <td>
+            <select id="operation_transform">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="bk">Pilih Baris/Kolom:</label>
+          </td>
+          <td>
+            <select id="bk">
+              <option value="baris">Baris</option>
+              <option value="kolom">Kolom</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="i">nilai i (Wajib):</label>
+          </td>
+          <td style="text-align: left;">
+            <input type="text" id="i" placeholder="Contoh: 1">
+
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="j">nilai j (khusus operasi 1,3, atau 4):</label>
+
+          </td>
+          <td>
+            <input type="text" id="j" placeholder="Contoh: 1">
+
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="a">nilai a (khusus operasi 2,3, atau 4):</label>
+
+          </td>
+          <td>
+            <input type="text" id="a" placeholder="Contoh: 1">
+
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="b">nilai b (khusus operasi 4):</label>
+
+          </td>
+          <td>
+            <input type="text" id="b" placeholder="Contoh: 1">
+
+          </td>
+        </tr>
+
+      </table>
+
+
+
+      <div>
+        <label for="vector_transform">Masukkan Vektor:</label>
+        <div id="vector_transform">
+
+          <table class=" table_vector1">
+            <tr>
+              <td rowspan="3" style="font-size: 144px;">(</td>
+              <td>
+                <input type="text" id="vector_transform_a" class="input_vector">
+              </td>
+              <td>
+                <input type="text" id="vector_transform_b" class="input_vector">
+              </td>
+              <td>
+                <input type="text" id="vector_transform_c" class="input_vector">
+              </td>
+              <td rowspan="3" style="font-size: 144px;">)</td>
+            </tr>
+            <tr>
+              <td>
+                <input type="text" id="vector_transform_d" class="input_vector">
+              </td>
+              <td>
+                <input type="text" id="vector_transform_e" class="input_vector">
+              </td>
+              <td>
+                <input type="text" id="vector_transform_f" class="input_vector">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="text" id="vector_transform_g" class="input_vector">
+              </td>
+              <td>
+                <input type="text" id="vector_transform_h" class="input_vector">
+              </td>
+              <td>
+                <input type="text" id="vector_transform_i" class="input_vector">
+              </td>
+            </tr>
+          </table>
+        </div>
+
+
+
+        <div class="button-container">
+          <button class="button -regular center" onclick="calculate_transform()">Hitung</button>
+
+        </div>
+
+        <br>
+
+        <label for="vector_transform_result">Result:</label>
+        <div id="vector_transform_result">
+
+          <table class=" table_vector1">
+            <tr>
+              <td rowspan="3" style="font-size: 144px;">(</td>
+              <td>
+                <input disabled type="text" id="vector_transform_result_a" class="input_vector">
+              </td>
+              <td>
+                <input disabled type="text" id="vector_transform_result_b" class="input_vector">
+              </td>
+              <td>
+                <input disabled type="text" id="vector_transform_result_c" class="input_vector">
+              </td>
+              <td rowspan="3" style="font-size: 144px;">)</td>
+            </tr>
+            <tr>
+              <td>
+                <input disabled type="text" id="vector_transform_result_d" class="input_vector">
+              </td>
+              <td>
+                <input disabled type="text" id="vector_transform_result_e" class="input_vector">
+              </td>
+              <td>
+                <input disabled type="text" id="vector_transform_result_f" class="input_vector">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input disabled type="text" id="vector_transform_result_g" class="input_vector">
+              </td>
+              <td>
+                <input disabled type="text" id="vector_transform_result_h" class="input_vector">
+              </td>
+              <td>
+                <input disabled type="text" id="vector_transform_result_i" class="input_vector">
+              </td>
+            </tr>
+          </table>
+        </div>
+
+
+
+      </div>
+
+      <div class="modal__footer">
+      </div>
+
+      <a href="#" class="modal__close">&times;</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2>Vector Operations</h2>
+
+    <label for="operation">Pilih Operasi:</label>
+    <select id="operation">
+      <option value="add">Penjumlahan</option>
+      <option value="subtract">Pengurangan</option>
+      <option value="perkalian">Perkalian</option>
+    </select>
+    <br />
+    <div class="button-container">
+      <a class="button -regular center" href="#modal_dot">Dot Product</a>
+      <a class="button -regular center" href="#modal_transform">Transformasi Elementer</a>
+    </div>
+    <br>
+
+    <label for="vector1">Masukkan Vektor 1:</label>
+    <div class="brackets1" style="display: table-cell">(</div>
+    <div id="vector1">
+
+      <table class=" table_vector1">
+        <tr>
+          <td>
+            <input type="text" id="vector1_a" class="input_vector">
+          </td>
+          <td>
+            <input type="text" id="vector1_b" class="input_vector">
+          </td>
+          <td>
+            <input type="text" id="vector1_c" class="input_vector">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="text" id="vector1_d" class="input_vector">
+          </td>
+          <td>
+            <input type="text" id="vector1_e" class="input_vector">
+          </td>
+          <td>
+            <input type="text" id="vector1_f" class="input_vector">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="text" id="vector1_g" class="input_vector">
+          </td>
+          <td>
+            <input type="text" id="vector1_h" class="input_vector">
+          </td>
+          <td>
+            <input type="text" id="vector1_i" class="input_vector">
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="brackets2" style="display: table-cell">)</div>
+
+
+    <br>
+
+    <label for="vector2">Masukkan Vektor 2:</label>
+    <div class="brackets3" style="display: table-cell">(</div>
+    <div id="vector2">
+
+      <table class=" table_vector2">
+        <tr>
+          <td>
+            <input type="text" id="vector2_a" class="input_vector">
+          </td>
+          <td>
+            <input type="text" id="vector2_b" class="input_vector">
+          </td>
+          <td>
+            <input type="text" id="vector2_c" class="input_vector">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="text" id="vector2_d" class="input_vector">
+          </td>
+          <td>
+            <input type="text" id="vector2_e" class="input_vector">
+          </td>
+          <td>
+            <input type="text" id="vector2_f" class="input_vector">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="text" id="vector2_g" class="input_vector">
+          </td>
+          <td>
+            <input type="text" id="vector2_h" class="input_vector">
+          </td>
+          <td>
+            <input type="text" id="vector2_i" class="input_vector">
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="brackets4" style="display: table-cell">)</div>
+
+
+    <br>
+    <div class="button-container">
+      <button class="button -regular center" onclick="calculate()">Hitung</button>
+
+    </div>
+
+
+    <br>
+
+    <label for="vector3">Result :</label>
+    <div class="brackets5" style="display: table-cell">(</div>
+    <div id="vector3">
+
+      <table class=" table_vector3">
+        <tr>
+          <td>
+            <input disabled type="text" id="vector3_a" class="input_vector">
+          </td>
+          <td>
+            <input disabled type="text" id="vector3_b" class="input_vector">
+          </td>
+          <td>
+            <input disabled type="text" id="vector3_c" class="input_vector">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input disabled type="text" id="vector3_d" class="input_vector">
+          </td>
+          <td>
+            <input disabled type="text" id="vector3_e" class="input_vector">
+          </td>
+          <td>
+            <input disabled type="text" id="vector3_f" class="input_vector">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input disabled type="text" id="vector3_g" class="input_vector">
+          </td>
+          <td>
+            <input disabled type="text" id="vector3_h" class="input_vector">
+          </td>
+          <td>
+            <input disabled type="text" id="vector3_i" class="input_vector">
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="brackets6" style="display: table-cell">)</div>
+
+
+  </div>
+
+
+  <script>
+
+    //get value
+    function get_value(vector, row) {
+
+      if (row == 3) {
+        var row1 = [];
+        var row2 = [];
+        var row3 = [];
+
+        //get first row
+        for (var i = 97; i <= 99; i++) {
+          var currentChar = String.fromCharCode(i);
+          row1.push(parseInt(document.getElementById(vector + "_" + currentChar).value));
+        }
+
+        //get second row
+        for (var i = 100; i <= 102; i++) {
+          var currentChar = String.fromCharCode(i);
+          row2.push(parseInt(document.getElementById(vector + "_" + currentChar).value));
+        }
+
+        //get third row
+        for (var i = 103; i <= 105; i++) {
+          var currentChar = String.fromCharCode(i);
+          row3.push(parseInt(document.getElementById(vector + "_" + currentChar).value));
+        }
+        var result = [];
+        result.push(row1);
+        result.push(row2);
+        result.push(row3);
+        return result;
+      }
+      else {
+        var row1 = [];
+
+        //get first row
+        for (var i = 97; i <= 99; i++) {
+          var currentChar = String.fromCharCode(i);
+          row1.push(parseInt(document.getElementById(vector + "_" + currentChar).value));
+        }
+
+        return row1;
+      }
+
+    }
+
+    function add_vector(vector1, vector2) {
+      var resultMatrix = [];
+
+      for (var i = 0; i < 3; i++) {
+        var row = [];
+        for (var j = 0; j < 3; j++) {
+          row.push(parseInt(vector1[i][j]) + parseInt(vector2[i][j]));
+        }
+        resultMatrix.push(row);
+      }
+
+      return resultMatrix;
+
+    }
+
+    function pengurangan_vector(vector1, vector2) {
+      var resultMatrix = [];
+
+      for (var i = 0; i < 3; i++) {
+        var row = [];
+        for (var j = 0; j < 3; j++) {
+          row.push(vector1[i][j] - vector2[i][j]);
+        }
+        resultMatrix.push(row);
+      }
+
+      return resultMatrix;
+
+    }
+
+    function perkalian_vector(vector1, vector2) {
+      var resultMatrix = [];
+
+      for (var i = 0; i < 3; i++) {
+        var row = [];
+        for (var j = 0; j < 3; j++) {
+          var sum = 0;
+          for (var k = 0; k < 3; k++) {
+            sum += vector1[i][k] * vector2[k][j];
+          }
+          row.push(sum);
+        }
+        resultMatrix.push(row);
+      }
+
+      return resultMatrix;
+    }
+
+
+
+    function print_result(vector, transform = false) {
+
+      if (transform == false) {
+
+        var j = 0;
+
+        //print first row
+        for (var i = 97; i <= 99; i++) {
+          var currentChar = String.fromCharCode(i);
+          document.getElementById("vector_transform_result_" + currentChar).value = vector[0][j];
+          j++;
+        }
+
+        var j = 0;
+        //print second row
+        for (var i = 100; i <= 102; i++) {
+          var currentChar = String.fromCharCode(i);
+          document.getElementById("vector_transform_result_" + currentChar).value = vector[1][j];
+          j++;
+        }
+
+        var j = 0;
+        //print third row
+        for (var i = 103; i <= 105; i++) {
+          var currentChar = String.fromCharCode(i);
+          document.getElementById("vector_transform_result_" + currentChar).value = vector[2][j];
+          j++;
+        }
+      }
+      else {
+        var j = 0;
+
+        //print first row
+        for (var i = 97; i <= 99; i++) {
+          var currentChar = String.fromCharCode(i);
+          document.getElementById("vector_transform_result_" + currentChar).value = vector[0][j];
+          j++;
+        }
+
+        var j = 0;
+        //print second row
+        for (var i = 100; i <= 102; i++) {
+          var currentChar = String.fromCharCode(i);
+          document.getElementById("vector_transform_result_" + currentChar).value = vector[1][j];
+          j++;
+        }
+
+        var j = 0;
+        //print third row
+        for (var i = 103; i <= 105; i++) {
+          var currentChar = String.fromCharCode(i);
+          document.getElementById("vector_transform_result_" + currentChar).value = vector[2][j];
+          j++;
+        }
+      }
+
+    }
+
+    function dotProduct(vector1, vector2) {
+      var result = 0;
+
+      for (var i = 0; i < 3; i++) {
+        result += vector1[i] * vector2[i];
+      }
+
+      return result;
+    }
+
+
+    function calculate_dot() {
+      var vector1 = get_value("vector_dot1");
+      var vector2 = get_value("vector_dot2");
+
+      var result;
+
+      result = dotProduct(vector1, vector2);
+      console.log(result)
+      document.getElementById("vector_dot_result").value = result;
+
+    }
+
+    function calculate_transform_real(operation, vector, i, j, a, b, bk) {
+      if (operation == '1') {
+        if (bk == 'baris') {
+          var i_baris = vector[i - 1];
+          var j_baris = vector[j - 1];
+
+          var new_vector = vector;
+
+          new_vector[i - 1] = j_baris;
+          new_vector[j - 1] = i_baris;
+
+          return new_vector;
+
+        }
+        else {
+          for (var k = 0; k < 3; k++) {
+            var i_kolom = vector[k][i - 1];
+            var j_kolom = vector[k][j - 1];
+
+            var new_vector = vector;
+
+            new_vector[k][i - 1] = j_kolom;
+            new_vector[k][j - 1] = i_kolom;
+          }
+          return new_vector;
+
+        }
+      }
+      else if (operation == '2') {
+        if (bk == 'baris') {
+          var i_baris = vector[i - 1];
+
+          for (var k = 0; k < i_baris.length; k++) {
+            i_baris[k] = i_baris[k] * a;
+          }
+
+          var new_vector = vector;
+
+          new_vector[i - 1] = i_baris;
+
+          return new_vector;
+
+        }
+        else {
+          for (var k = 0; k < 3; k++) {
+            var new_vector = vector;
+
+            new_vector[k][i - 1] = vector[k][i - 1] * a;
+          }
+          return new_vector;
+        }
+
+      }
+      else if (operation == '3') {
+        if (bk == 'baris') {
+          var i_baris = vector[i - 1];
+          var j_baris = vector[j - 1];
+
+          for (var k = 0; k < i_baris.length; k++) {
+            i_baris[k] = i_baris[k] + (a * j_baris[k]);
+          }
+
+          var new_vector = vector;
+
+          new_vector[i - 1] = i_baris;
+
+          return new_vector;
+
+        }
+        else {
+          for (var k = 0; k < 3; k++) {
+            var i_kolom = vector[k][i - 1];
+            var j_kolom = vector[k][j - 1];
+
+            var new_vector = vector;
+
+            new_vector[k][i - 1] = i_kolom + (a * j_kolom);
+            console.log(new_vector, i_kolom, j_kolom, a);
+          }
+          return new_vector;
+
+
+        }
+      }
+      else if (operation == '4') {
+        if (bk == 'baris') {
+          var i_baris = vector[i - 1];
+          var j_baris = vector[j - 1];
+
+          for (var k = 0; k < i_baris.length; k++) {
+            i_baris[k] = (i_baris[k] * a) + (b * j_baris[k]);
+          }
+
+          var new_vector = vector;
+
+          new_vector[i - 1] = i_baris;
+
+          return new_vector;
+
+        }
+        else {
+          for (var k = 0; k < 3; k++) {
+            var i_kolom = vector[k][i - 1];
+            var j_kolom = vector[k][j - 1];
+
+            var new_vector = vector;
+
+            new_vector[k][i - 1] = (i_kolom * a) + (b * j_kolom);
+            console.log(new_vector, i_kolom, j_kolom, a);
+          }
+          return new_vector;
+
+
+        }
+      }
+    }
+
+    function calculate_transform() {
+      var vector = get_value("vector_transform", 3);
+      var operation = document.getElementById("operation_transform").value;
+      var bk = document.getElementById("bk").value;
+
+      var a = document.getElementById("a").value;
+      var b = document.getElementById("b").value;
+      var i = document.getElementById("i").value;
+      var j = document.getElementById("j").value;
+
+      result = calculate_transform_real(operation, vector, i, j, a, b, bk);
+
+      console.log(result);
+
+      print_result(result, true);
+
+
+    }
+
+    function calculate() {
+      var operation = document.getElementById("operation").value;
+      //var vector1 = document.getElementById("vector1").value.split(',').map(Number);
+      var vector1 = get_value("vector1", 3);
+      var vector2 = get_value("vector2", 3);
+
+      var result;
+
+      switch (operation) {
+        case 'add':
+          result = add_vector(vector1, vector2);
+          break;
+        case 'subtract':
+          result = pengurangan_vector(vector1, vector2);
+          break;
+        case 'perkalian':
+          result = perkalian_vector(vector1, vector2);
+          break;
+        default:
+          result = "Operasi tidak valid";
+      }
+      print_result(result);
+      //document.getElementById("result").value = result;
+    }
+  </script>
+</body>
+
+</html>
