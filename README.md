@@ -1,3 +1,3 @@
 ```
-Selamat membaca hasil kodingan yg tidak konsisten ini:).
+Selamat membaca hasil kodingan yg tidak konsisten dan readable ini:).
 ```
