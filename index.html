@@ -743,51 +743,6 @@
 
   <script>
 
-    //get value
-    function get_value(vector, row) {
-
-      if (row == 3) {
-        var row1 = [];
-        var row2 = [];
-        var row3 = [];
-
-        //get first row
-        for (var i = 97; i <= 99; i++) {
-          var currentChar = String.fromCharCode(i);
-          row1.push(parseInt(document.getElementById(vector + "_" + currentChar).value));
-        }
-
-        //get second row
-        for (var i = 100; i <= 102; i++) {
-          var currentChar = String.fromCharCode(i);
-          row2.push(parseInt(document.getElementById(vector + "_" + currentChar).value));
-        }
-
-        //get third row
-        for (var i = 103; i <= 105; i++) {
-          var currentChar = String.fromCharCode(i);
-          row3.push(parseInt(document.getElementById(vector + "_" + currentChar).value));
-        }
-        var result = [];
-        result.push(row1);
-        result.push(row2);
-        result.push(row3);
-        return result;
-      }
-      else {
-        var row1 = [];
-
-        //get first row
-        for (var i = 97; i <= 99; i++) {
-          var currentChar = String.fromCharCode(i);
-          row1.push(parseInt(document.getElementById(vector + "_" + currentChar).value));
-        }
-
-        return row1;
-      }
-
-    }
-
     function add_vector(vector1, vector2) {
       var resultMatrix = [];
 
@@ -837,65 +792,6 @@
     }
 
 
-
-    function print_result(vector, transform = false) {
-
-      if (transform == false) {
-
-        var j = 0;
-
-        //print first row
-        for (var i = 97; i <= 99; i++) {
-          var currentChar = String.fromCharCode(i);
-          document.getElementById("vector_transform_result_" + currentChar).value = vector[0][j];
-          j++;
-        }
-
-        var j = 0;
-        //print second row
-        for (var i = 100; i <= 102; i++) {
-          var currentChar = String.fromCharCode(i);
-          document.getElementById("vector_transform_result_" + currentChar).value = vector[1][j];
-          j++;
-        }
-
-        var j = 0;
-        //print third row
-        for (var i = 103; i <= 105; i++) {
-          var currentChar = String.fromCharCode(i);
-          document.getElementById("vector_transform_result_" + currentChar).value = vector[2][j];
-          j++;
-        }
-      }
-      else {
-        var j = 0;
-
-        //print first row
-        for (var i = 97; i <= 99; i++) {
-          var currentChar = String.fromCharCode(i);
-          document.getElementById("vector_transform_result_" + currentChar).value = vector[0][j];
-          j++;
-        }
-
-        var j = 0;
-        //print second row
-        for (var i = 100; i <= 102; i++) {
-          var currentChar = String.fromCharCode(i);
-          document.getElementById("vector_transform_result_" + currentChar).value = vector[1][j];
-          j++;
-        }
-
-        var j = 0;
-        //print third row
-        for (var i = 103; i <= 105; i++) {
-          var currentChar = String.fromCharCode(i);
-          document.getElementById("vector_transform_result_" + currentChar).value = vector[2][j];
-          j++;
-        }
-      }
-
-    }
-
     function dotProduct(vector1, vector2) {
       var result = 0;
 
@@ -904,19 +800,6 @@
       }
 
       return result;
-    }
-
-
-    function calculate_dot() {
-      var vector1 = get_value("vector_dot1");
-      var vector2 = get_value("vector_dot2");
-
-      var result;
-
-      result = dotProduct(vector1, vector2);
-      console.log(result)
-      document.getElementById("vector_dot_result").value = result;
-
     }
 
     function calculate_transform_real(operation, vector, i, j, a, b, bk) {
@@ -1036,6 +919,122 @@
       }
     }
 
+
+    function get_value(vector, row) {
+
+      if (row == 3) {
+        var row1 = [];
+        var row2 = [];
+        var row3 = [];
+
+        //get first row
+        for (var i = 97; i <= 99; i++) {
+          var currentChar = String.fromCharCode(i);
+          row1.push(parseInt(document.getElementById(vector + "_" + currentChar).value));
+        }
+
+        //get second row
+        for (var i = 100; i <= 102; i++) {
+          var currentChar = String.fromCharCode(i);
+          row2.push(parseInt(document.getElementById(vector + "_" + currentChar).value));
+        }
+
+        //get third row
+        for (var i = 103; i <= 105; i++) {
+          var currentChar = String.fromCharCode(i);
+          row3.push(parseInt(document.getElementById(vector + "_" + currentChar).value));
+        }
+        var result = [];
+        result.push(row1);
+        result.push(row2);
+        result.push(row3);
+        return result;
+      }
+      else {
+        var row1 = [];
+
+        //get first row
+        for (var i = 97; i <= 99; i++) {
+          var currentChar = String.fromCharCode(i);
+          row1.push(parseInt(document.getElementById(vector + "_" + currentChar).value));
+        }
+
+        return row1;
+      }
+
+    }
+
+    function print_result(vector, transform = false) {
+
+      if (transform == false) {
+
+        var j = 0;
+
+        //print first row
+        for (var i = 97; i <= 99; i++) {
+          var currentChar = String.fromCharCode(i);
+          document.getElementById("vector_transform_result_" + currentChar).value = vector[0][j];
+          j++;
+        }
+
+        var j = 0;
+        //print second row
+        for (var i = 100; i <= 102; i++) {
+          var currentChar = String.fromCharCode(i);
+          document.getElementById("vector_transform_result_" + currentChar).value = vector[1][j];
+          j++;
+        }
+
+        var j = 0;
+        //print third row
+        for (var i = 103; i <= 105; i++) {
+          var currentChar = String.fromCharCode(i);
+          document.getElementById("vector_transform_result_" + currentChar).value = vector[2][j];
+          j++;
+        }
+      }
+      else {
+        var j = 0;
+
+        //print first row
+        for (var i = 97; i <= 99; i++) {
+          var currentChar = String.fromCharCode(i);
+          document.getElementById("vector_transform_result_" + currentChar).value = vector[0][j];
+          j++;
+        }
+
+        var j = 0;
+        //print second row
+        for (var i = 100; i <= 102; i++) {
+          var currentChar = String.fromCharCode(i);
+          document.getElementById("vector_transform_result_" + currentChar).value = vector[1][j];
+          j++;
+        }
+
+        var j = 0;
+        //print third row
+        for (var i = 103; i <= 105; i++) {
+          var currentChar = String.fromCharCode(i);
+          document.getElementById("vector_transform_result_" + currentChar).value = vector[2][j];
+          j++;
+        }
+      }
+
+    }
+
+    function calculate_dot() {
+      var vector1 = get_value("vector_dot1");
+      var vector2 = get_value("vector_dot2");
+
+      var result;
+
+      result = dotProduct(vector1, vector2);
+      console.log(result)
+      document.getElementById("vector_dot_result").value = result;
+
+    }
+
+
     function calculate_transform() {
       var vector = get_value("vector_transform", 3);
       var operation = document.getElementById("operation_transform").value;
@@ -1057,7 +1056,6 @@
 
     function calculate() {
       var operation = document.getElementById("operation").value;
-      //var vector1 = document.getElementById("vector1").value.split(',').map(Number);
       var vector1 = get_value("vector1", 3);
       var vector2 = get_value("vector2", 3);
 
@@ -1077,7 +1075,6 @@
           result = "Operasi tidak valid";
       }
       print_result(result);
-      //document.getElementById("result").value = result;
     }
   </script>
 </body>
